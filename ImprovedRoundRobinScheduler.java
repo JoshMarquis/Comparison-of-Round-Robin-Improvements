@@ -1,7 +1,38 @@
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.concurrent.ThreadLocalRandom;
 
+class process {
+	String ID = "";
+	int serviceTime = -1;
+	int A = -1;
+	int startTime = -1;
+	int initialServiceTime=-1;
+
+
+	public void setData(String newID, int newServiceTime, int newIntA) {
+		ID = newID;
+		serviceTime = newServiceTime;
+		initialServiceTime= newServiceTime;
+		A = newIntA;
+	}
+
+	public void setStartTime(int time) {
+		startTime = time;
+	}
+	
+	public void setServiceTime(int newServiceTime) {
+		serviceTime = newServiceTime;
+	}
+}
+
+class queueSort implements Comparator<process>{
+	@Override
+    public int compare(process o1, process o2) {
+        return Integer.compare(o1.serviceTime, o2.serviceTime);
+    }
+}
 public class ImprovedRoundRobinScheduler {
 
 	public static void sortedandMinQRR(LinkedList<process> pwaitQ, int numProcesses, int quantum, int switchtime) {
@@ -348,7 +379,7 @@ public class ImprovedRoundRobinScheduler {
 	public static void main(String args[]) {
 		int numProcesses = 1000;
 		int quantum = 3;
-		int switchTime = 0;
+		int switchTime = 1;
 
 		LinkedList<process> pQueue = new LinkedList<>();
 		LinkedList<process> sortedandMinQpQueue = new LinkedList<>();
@@ -365,7 +396,7 @@ public class ImprovedRoundRobinScheduler {
 			int aTime = 0;
 			try {
 				// min is inclusive, max is exclusive so +1
-				aTime = pQueue.get(i - 1).A + ThreadLocalRandom.current().nextInt(3, 7 + 1);
+				aTime = pQueue.get(i - 1).A + ThreadLocalRandom.current().nextInt(3, 5 + 1);
 			} catch (Exception ex) {
 				aTime = ThreadLocalRandom.current().nextInt(3, 5 + 1);
 			}
@@ -380,11 +411,11 @@ public class ImprovedRoundRobinScheduler {
 			sortedpQueue.add(sortedprs);
 		}
 
-		for (int i = 0; i < numProcesses; i++) {
+		/*for (int i = 0; i < numProcesses; i++) {
 			System.out.println(pQueue.get(i).ID + " Arrival time " + pQueue.get(i).A + " Service time "
 					+ pQueue.get(i).serviceTime);
-
-		}
+		
+		}*/
 		System.out.println("~~~~~~~~~~~~~");
 
 		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
